@@ -1069,14 +1069,14 @@ class Shell(cmd.Cmd):
 
     def perform_statement(self, statement):
         statement = ensure_text(statement)
-        #print("[DEBUG] perform_statement called with:", statement)
+        print("[DEBUG] perform_statement called with:", statement)
         # regex to extract columns and values
         m = re.match(r"INSERT\s+INTO\s+\S+\s*\((.*?)\)\s*VALUES\s*\((.*?)\)", statement, re.IGNORECASE)
         if m:
             columns = [c.strip() for c in m.group(1).split(',')]
             values = [v.strip() for v in m.group(2).split(',')]
-            #print("[DEBUG] Columns:", columns)
-            #print("[DEBUG] Values:", values)
+            print("[DEBUG] Columns:", columns)
+            print("[DEBUG] Values:", values)
 
             # Prefix only the value corresponding to 'field0'
             for i, col in enumerate(columns):
@@ -1089,7 +1089,7 @@ class Shell(cmd.Cmd):
 
             # Rebuild the statement
             statement = f"INSERT INTO store.shopping_cart ({', '.join(columns)}) VALUES ({', '.join(values)})"
-            #print("[DEBUG] Statement after modification:", statement)
+            print("[DEBUG] Statement after modification:", statement)
         stmt = SimpleStatement(statement, consistency_level=self.consistency_level, serial_consistency_level=self.serial_consistency_level, fetch_size=self.page_size if self.use_paging else None)
         success, future = self.perform_simple_statement(stmt)
 
